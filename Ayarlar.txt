@@ -28,6 +28,6 @@ NameVirtualHost *:80
 </VirtualHost>
 
 
-host dosyasý ayarlarý
+host dosyasi ayarlari
 ---------------------
 127.0.0.1       localhost cmspanel hediyenikap
