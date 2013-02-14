@@ -1,0 +1,154 @@
+	<div id="button-container-top">
+	</div>
+	<div id="button-container-center">
+		
+<?php if ($this->gift["start_date"]< date('Y-m-d H:i:s') && $this->gift['end_date']>date('Y-m-d H:i:s')){?>
+		<div id="seans-status">
+			Seans Açık
+		</div>
+<?php     if (isset($this->is_awarded)){?>
+
+
+
+
+
+
+<?php    }elseif ($this->deal_left > 0){?>
+<?php         if (isset($this->time_left) &&  $this->time_left < 5){?>
+<script language='javascript' type='text/javascript' src='/assets/scripts/jquery.lwtCountdown-1.0.js'></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#countdown_dashboard').countDown({
+		targetOffset: {
+			'day':      0,
+			'month':    0,
+			'year':     0,
+			'hour':     0,
+			'min':      0,
+			'sec':      <?php echo $this->time_left?>
+		},
+		onComplete: function() { 
+			$('#deal').load("/index/deal") 
+		}
+	});
+});
+</script>
+
+<span class="status open"></span>
+<div class="notification">
+	Bu seansta <?php echo $this->gift['product_limit']?> hediye verilecek.
+</div>
+<div class="panel-divider"></div>
+<div class="notification">
+	<?php $numbers = explode("|",$this->gift['award_numbers']);	echo $numbers[0]?> veya katlarında hediyenizi kapın!
+</div>
+<div id="result-detail" style="margin-top: 10px;">
+<!-- Countdown dashboard start -->
+		<div id="countdown_dashboard">
+			<!--<div class="dash weeks_dash">
+				<span class="dash_title">weeks</span>
+				<div class="digit">0</div>
+				<div class="digit">0</div>
+			</div>
+
+			<div class="dash days_dash">
+				<span class="dash_title">days</span>
+				<div class="digit">0</div>
+				<div class="digit">0</div>
+			</div>
+
+			<div class="dash hours_dash">
+				<span class="dash_title">hours</span>
+				<div class="digit">0</div>
+				<div class="digit">0</div>
+			</div>
+
+			<div class="dash minutes_dash">
+				<span class="dash_title">minutes</span>
+				<div class="digit">0</div>
+				<div class="digit">0</div>
+			</div>-->
+
+			<div class="dash seconds_dash">
+				<span class="dash_title">SANİYE KALDI.</span>
+				<div class="digit">0</div>
+				<div class="digit">0</div>
+			</div>
+
+		</div>
+		<!-- Countdown dashboard end -->
+</div>
+<div class="panel-divider"></div>
+<?php         }else{?>
+
+<span class="status play"></span>
+<div class="notification">
+	Bu seansta <?php echo $this->gift['product_limit']?> hediye verilecek.
+</div>
+<div class="panel-divider"></div>
+<div class="notification">
+	<?php $numbers = explode("|",$this->gift['award_numbers']);	echo $numbers[0]?> veya katlarında tıklayın hediyenizi kapın!
+</div>
+<a class="button open notice" onclick="checkDeal()">
+	
+</a>
+<div class="panel-divider"></div>
+<span class="deal-notice" ><br/>Tıklama<br/> Hakkınız<br/><b style="text-decoration: underline;color: white;font-size: 25px;"><?php echo $this->deal_left?></b> <br/></span> 
+
+<script type="text/javascript">
+function checkDeal (){
+	$.ajax({
+        type:"POST",
+        url:"/index/check-deal",
+        data:"id=" + <?php echo @$this->gift['session_id']?> ,
+        success: function(response){
+            $("#deal").html(response);
+        }
+    });
+}
+$(".notice").hover(function(){
+	$(".deal-notice").show();
+},function(){
+	$(".deal-notice").hide();
+});
+</script>
+		<?php }?>
+    <?php }else {?>
+    
+	<span class="status play"></span>
+		<div class="notification">
+			Bu seansta <?php echo $this->gift['product_limit']?> hediye verilecek.
+		</div>
+		<div class="panel-divider"></div>
+		<div class="notification">
+			<?php $numbers = explode("|",$this->gift['award_numbers']);	echo $numbers[0]?> veya katlarında tıklayın hediyenizi kapın!
+		</div>
+		<a class="button open " onclick="checkDeal()">
+			
+		</a>
+		<div class="panel-divider"></div>
+		
+
+
+    <?php }?>
+<?php echo isset($this->result) ? $this->result: "";?>
+
+
+<?php }else {?>
+        <div id="seans-status" style="color: font-size:30px;font-weight:bold; color: #ffcc00;height: auto;line-height: 30px;">
+        	Seans <br/>her an <br/>açılabilir!
+        </div>
+		<span class="status pause"></span>
+		<div class="notification">
+			
+		</div>
+		<div class="panel-divider"></div>
+		
+		<a class="button close " >
+			
+		</a>
+		<div class="panel-divider"></div>
+<?php }?>
+	</div>
+	<div id="button-container-bottom">
+	</div>

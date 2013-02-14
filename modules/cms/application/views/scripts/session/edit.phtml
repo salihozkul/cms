@@ -1,0 +1,124 @@
+<script language='javascript' type='text/javascript' src='/assets/scripts/jquery-ui-1.8.6.custom.min.js'></script>
+<script language='javascript' type='text/javascript' src='/assets/scripts/jquery-ui-timepicker-addon.js'></script>
+<link href='/assets/css/jquery-ui.css' type='text/css' rel='stylesheet' />
+<div class="block">
+	<div class="block_head">
+    	<div class="bheadl"></div>
+    	<div class="bheadr"></div>
+    		
+    	<h2>Seanslar</h2>
+    </div>
+	<div class="block_content">
+		<form  method="post" style="text-align: left;" id="page_form">
+            <?php if (isset($this->session)):?>
+            <input type="hidden" name="id" id="page_item" value="<?php echo @$this->session['id']?>" />
+            <?php endif;?>
+            <p >
+            	<label for="session_name" >Seans Adı</label>
+            	<input name="session_name" type="text" class="text medium" value="<?php echo @$this->session['session_name']?>" />
+            </p>
+            <p style="float:left;width:400px;clear:none;">
+            	<label for="season_id" >Sezon Adı</label>
+            	<select style="width: 300px;" name="season_id" id="season_id" onchange="getProductNumber($(this).val(),1)" >
+            	<option>Sezon Seçiniz</option>
+            	<?php foreach ($this->season as $season):?>
+            		<option value="<?php echo $season['id']?>" <?php echo ($season['id']==@$this->session['season_id'])? 'selected="selected"':'';?>><?php echo $season['season_name']?></option>
+            	<?php endforeach;?>	
+            	</select>
+            </p>
+            
+            <p style="float:left;width:400px;clear:none;">
+            	<label for="product_limit"  style="float:left;width:200px;">Verilecek Ürün Sayısı</label>
+            	<select name="product_limit" id="product_limit" style="width:300px;">
+            		
+            	</select>
+            </p>
+            <p style="float:left;width:400px;clear:both;">
+            	<label for="click_limit" style="float:left;width:260px;" >Kullanıcı Tık Hakkı</label>
+            	<input name="click_limit" type="text" class="medium text" style="width:300px;" value="<?php echo @$this->session['click_limit']?>" />
+            </p>
+            <p style="float:left;width:400px;clear:none;">
+            	<label for="award_numbers" style="float:left;width:260px;" >Hediye Verilecek Tık Sayıları</label>
+            	<input name="award_numbers" type="text" class="medium text" style="width:300px;" value="<?php echo @$this->session['award_numbers']?>" />
+            </p>
+            <p style="float:left;width:260px;clear:both;">
+                <label for="start_date" style="float:left;width:120px;">Başlangıç Tarihi</label>
+                <input type="text" name="start_date" value="<?php echo @$this->session['start_date']?>"  class="text" style="width:200px;"  id="start" /> 
+            </p>
+            <p style="float:left;width:260px;clear:none;">
+                <label for="end_date" style="float:left;width:120px;">Bitiş Tarihi</label>
+                <input type="text" name="end_date" value="<?php echo @$this->session['end_date']?>"  class="text" style="width:200px;" id="finish" /> 
+            </p>
+            <p>
+            	<input type="submit" class="submit" value="Kaydet" />
+            </p>
+		</form>
+	</div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+	$.datepicker.regional['tr'] = {
+	          closeText: 'kapat',
+	          prevText: 'geri',
+	          nextText: 'ileri',
+	          currentText: 'bugün',
+	          monthNames: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],
+	          monthNamesShort: ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'],
+	          dayNames: ['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'],
+	          dayNamesShort: ['Pz','Pt','Sa','Ça','Pe','Cu','Ct'],
+	          dayNamesMin: ['Pz','Pt','Sa','Ça','Pe','Cu','Ct'],
+	          weekHeader: 'Hf',
+	          dateFormat: 'yy-mm-dd',
+	          firstDay: 1,
+	          isRTL: false,
+	          showMonthAfterYear: false,
+	          changeMonth: true,
+	          changeYear: true,
+	          showSecond: true,
+	          timeFormat: 'hh:mm:ss',
+	          yearSuffix: ''};
+	$.datepicker.setDefaults($.datepicker.regional['tr']);
+
+	$('#start').datetimepicker($.datepicker.regional['tr']);
+	$('#finish').datetimepicker($.datepicker.regional['tr']);
+	
+	getProductNumber(<?php echo (isset($this->session['season_id'])) ?  @$this->session['season_id'] .",". @$this->session['product_limit'] : ""?>);
+});
+
+function getProductNumber(season_id,limit){
+	if(season_id){
+    	$.ajax({
+            type: "POST",
+            url: "/session/get-product-number",
+            data: "season_id="+season_id+"&product_limit="+limit,
+            success: function(response){
+           	 	$("#product_limit").html(response);
+            }
+        });
+	}
+}
+
+
+$("#page_form").submit(function(){
+	var data = $(this).serialize();
+	var url = "";
+	if($("#page_item").length == 0){
+		url = "/session/create";
+	}else{
+		url = "/session/edit/item/"+$("#page_item").val();
+	}
+	 $.ajax({
+         type: "POST",
+         url: url,
+         data: data,
+         success: function(msg){
+        	 closeLightBox();
+        	 $('#gridtable').flexReload();
+         }
+     });
+	return false;
+});
+
+
+</script>

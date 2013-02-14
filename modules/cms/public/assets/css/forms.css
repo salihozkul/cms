@@ -1,0 +1,12 @@
+#api_system_created_forms{
+	clear: both;
+	float: left;
+	width: 100%;
+	background-color: #fff;
+}
+
+#api_system_created_forms input[type=submit]{
+	clear: both;
+	float: left;
+	margin: 5px;
+	}

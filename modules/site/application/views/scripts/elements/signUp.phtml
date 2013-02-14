@@ -1,0 +1,131 @@
+<?php 
+if (isset($this->message)){
+    echo $this->message;
+}else{
+?>
+<script language='javascript' type='text/javascript' src='/assets/scripts/jquery.validate.min.js'></script>
+<form method="post" action="/sign-up/" id="sign-up"  onsubmit="signUpForm()">
+<fieldset>
+    <legend>Kişisel Bilgiler</legend>
+<label id="tc_error" class="error"></label>   
+<p><label class="labels" for="tc">TC Kimlik No</label><input onBlur="checkTrNo()" type="text" name="tc" maxlength="11" class="texts number required" id="tc"  /> </p>
+<p><label class="labels" for="name">Ad</label><input onBlur="checkTrNo()" type="text" name="name" id="name" class="texts required" /> </p>
+<p><label class="labels" for="surname">Soyad</label><input onBlur="checkTrNo()" type="text" name="surname" id="surname" class=" texts required" /> </p>
+<p><label class="labels" for="birthdate">Doğum Yılı</label><select onBlur="checkTrNo()" name="birthdate" id="birthdate" class="selects">
+<option value="">Doğum Yılınız</option>
+<?php for ($i=1993;$i>1900;$i--):?>
+<option value="<?php echo $i?>"><?php echo $i?></option> 
+<?php endfor;?>
+</select>
+</p>
+<p><label class="labels" for="email">E-Posta</label><input type="text" name="email" class="texts required email" /> </p>
+
+<p><label class="labels" for="phone">Telefon</label><input type="text" name="phone" class="texts" /> </p>
+<p><label class="labels" for="address">Adres</label><textarea name="address" class="textareas"></textarea> </p>
+<p><label class="labels" for="location_id">İl</label><select name="location_id" class="selects">
+<?php foreach ($this->locations as $location):?>
+<option value="<?php echo $location['id']?>"><?php echo $location['city']?></option> 
+<?php endforeach;?>
+</select>
+</p>
+</fieldset>
+<fieldset>
+    <legend>Kullanıcı Bilgileri</legend>
+    <p><label class="labels" for="username">Kullanıcı Adı</label><input onBlur="checkUsername(this.value)" type="text" name="username" class="texts required" /><span id="display"></span> </p>
+    <p><label class="labels" for="password">Şifre</label><input type="password" name="password" class="texts required password" /> </p>
+</fieldset>
+
+<p><input id="save" disabled="disabled" type="submit" value="Kaydet" /> </p>
+</form>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#sign-up").validate({
+	 	submitHandler: function(form) {
+	   		form.submit();
+	 	}
+	});
+			
+});
+function signUpForm(){
+	tc = $("#tc").val();
+    name = $("#name").val();
+    surname = $("#surname").val();
+    birthdate = $("#birthdate").val();
+    if(tc != '' && name !='' & surname != '' && birthdate != ''){
+        $.ajax({
+            type:"POST",
+            url:"/ajax/Tc-check",
+            data:"tc="+tc+"&name="+name+"&surname="+surname+"&birthdate="+birthdate,
+            success: function(response){
+                if(response!="1"){
+	                $("#tc_error").html(response).show();
+					return false;
+                }else{
+                    return true;
+                }
+            }
+        });
+    }else{
+    	console.write("gerekli yerler dolsun");
+		return false;
+    }
+}
+
+function checkTrNo(){
+	tc = $("#tc").val();
+    name = $("#name").val();
+    surname = $("#surname").val();
+    birthdate = $("#birthdate").val();
+    if(tc != '' && name !='' & surname != '' && birthdate != ''){
+        $.ajax({
+            type:"POST",
+            url:"/ajax/Tc-check",
+            data:"tc="+tc+"&name="+name+"&surname="+surname+"&birthdate="+birthdate,
+            success: function(response){
+                if(response!="1"){
+	                $("#tc_error").html(response).show();
+	                $("#save").removeAttr("disabled");
+					return false;
+                }else{
+                    $("#save").attr("disabled","disabled");
+                    return true;
+                    
+                }
+            }
+        });
+    }
+}
+
+function checkUsername (userName){
+	$("#display").css("padding","5px");
+    if(userName.length <= 5){
+        $("#display").html("Kullanıcı Adı en az 5 karakter olmalı");
+        $("#display").css("color","red");
+    }else{
+        $.ajax({
+            type:"POST",
+            url:"/ajax/checkusername",
+            data:"username=" + userName ,
+            success: function(response){
+                if(response == "1"){
+                    $("<label class='error'>Kullanıcı Adı Uygun<").insertAfter();
+                    $("#display").html("&radic; Kullanıcı Adı Uygun");
+                    $("#display").css("color","darkgreen");
+                    $("#save").removeAttr("disabled");
+                }else{
+                	$("#save").attr("disabled","disabled");
+                  	$("#display").text("username is already taken");
+                 	$("#display").css("color","red");
+                }
+            }
+        });
+    }
+}
+
+</script>
+
+
+
+<?php 
+}
+?>

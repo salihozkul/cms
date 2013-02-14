@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+	<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+	<?php echo $this->headTitle()?>
+		<link href='/assets/css/style.css' type='text/css' rel='stylesheet' />
+		<script language='javascript' type='text/javascript' src='/assets/scripts/jquery.js'></script>
+		<script type="text/javascript" src="assets/scripts/nivoSlider/jquery.nivo.slider.pack.js"></script>
+		<link rel="stylesheet" href="assets/scripts/nivoSlider/nivo-slider.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="assets/scripts/nivoSlider/themes/pascal/pascal.css" type="text/css" media="screen" />
+		<script type="text/javascript">
+$(function(){
+ 	var total_length=-115;
+ 	var counter = 0;
+	$("#navigation a ").each(function(i){
+		total_length += $(this).width()-11;
+		//counter--;
+		var cssObj = {
+	      "left": total_length,
+	      "z-index": counter		    
+	    }
+	    $(this).css(cssObj);
+	});
+	$("#navigation a.active").css("z-index",1);
+	
+	var cssObj = { "left": total_length+95 }
+	$("#navigation a:last").css(cssObj);
+	
+	$("#navigation a").hover(function(){
+		zindex = $(this).css("z-index");
+		$(this).css("z-index",2);
+	},function(){
+		$(this).css("z-index",zindex);
+	});
+	$("#sidebar-icon").hover(function(){
+		$("#sidebar-icon-slogan").show();
+	},function(){
+		$("#sidebar-icon-slogan").hide();
+	});
+});
+</script>
+</head>
+<body>
+<div id="container">
+    <div class="wrapper">
+	<div id="content">
+		<div id="header">
+			<div id="logo">
+				
+			</div>
+			<div id="login-form">
+			<?php echo  $this->authantication?>
+			</div>
+		</div>
+		<div id="content">
+			<div id="navigation">
+	
+    			 <a class="nav <?php echo $this->Navigation("simdiki-hediye")?>" href="/simdiki-hediye">
+					Şimdiki Hediye
+				</a>
+				<a class="nav <?php echo $this->Navigation("kacan-hediyeler")?>" href="/kacan-hediyeler">
+					Kaçan Hediyeler
+				</a>
+				<a class="nav <?php echo $this->Navigation("siradaki-hediyeler")?>"  href="/siradaki-hediyeler">
+					Sıradaki Hediyeler
+				</a>
+				<a class="nav <?php echo $this->Navigation("nasil-calisir")?>"  href="/nasil-calisir">
+					Nasıl Çalışır
+				</a>
+				<a class="nav <?php echo $this->Navigation("firmalara-ozel")?>"  href="/firmalara-ozel">
+					Firmalara Özel
+				</a>
+				<span class="nav-span"></span>
+				<a class="nav <?php echo $this->Navigation("bana-ozel")?>"  href="/bana-ozel">
+					Bana Özel
+				</a>
+			</div>
+			<div id="container-top-left"></div>
+			<div id="container-top-temp"></div>
+			<div id="container-top-right"></div>
+			<div id="center-content">
+			<?php echo $this->layout()->content?>		
+			</div>
+			<div id="container-bottom-left"></div>
+			<div id="container-bottom-temp"></div>
+			<div id="container-bottom-right"></div>
+		</div>
+		<div id="footer-top-left"></div>
+		<div id="footer-top-temp"></div>
+		<div id="footer-top-right"></div>
+		<div id="footer" >
+			<div class="footer-column">
+				<h3>Hakkımızda</h3>
+				<a href="/hediyenikap-nedir" class="footer-links">Hediyenikap Nedir?</a>
+				<a href="/gizlilik-ilkesi" class="footer-links">Gizlilik İlkesi</a>
+				<h3>Yardım</h3>
+				<a href="/nasil-calisir" class="footer-links">Nasıl Çalışır?</a>
+				<a href="/sikca-sorulan-sorular" class="footer-links">Sıkça Sorulan Sorular</a>
+			</div>	
+			<div class="footer-column">
+				<h3>Bize Ulaşın</h3>
+				<a href="/iletisim" class="footer-links">İletişim</a>
+				<a href="/firma-iletisim" class="footer-links">Firma İletişim Formu</a>
+				<h3>Bizi Takip Edin</h3>
+				<a href="/email-bulteni" class="footer-links">Email Bülteni</a>
+				<a href="/facebook" class="footer-links">Facebook</a>
+				<a href="/twitter" class="footer-links">Twitter</a>
+			</div>	
+			<div class="footer-column">
+				<h3>Ana Menü</h3>
+				<a href="/simdiki-hediye" class="footer-links">Şimdiki Hediye</a>
+				<a href="/siradaki-hediye" class="footer-links">Sıradaki Hediyeler</a>
+				<a href="/kacan-hediyeler" class="footer-links">Kaçan Hediyeler</a>
+				<a href="/nasil-calisir" class="footer-links">Nasıl Çalışır?</a>
+				<a href="/firmalara-ozel" class="footer-links">Firmalara Özel</a>
+				<a href="/bana-ozel" class="footer-links">Bana Özel</a>
+			</div>	
+			
+			<a id="footer-icon" href="/firmalara-ozel"></a>
+			<span id="copyright">hediyenikap.com &copy; 2011 </span>
+		</div>	
+	</div>	
+    </div>
+</div>
+<div id="sidebar">
+	<a id="twitter" href="#" title="Twitter" ></a>
+	<a id="facebook" href="#" title="Facebook"></a>
+	<a id="ebulten" href="#"></a>
+	
+	<a id="sidebar-icon" href="/firmalara-ozel"></a>
+	<span id="sidebar-icon-slogan"></span>
+</div>
+</body>
+</html> 

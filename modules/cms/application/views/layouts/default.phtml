@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+	<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+	<?php echo $this->headTitle()?>
+		<link href='/assets/css/style.css' type='text/css' rel='stylesheet' />
+		<link href='/assets/css/jquery.autocomplete.css' type='text/css' rel='stylesheet' />
+		<link href='/assets/flexigrid/flexigrid.css' type='text/css' rel='stylesheet' />
+		<script language='javascript' type='text/javascript' src='/assets/scripts/jquery.js'></script>
+		
+		<script language='javascript' type='text/javascript' src='/assets/ckeditor/ckeditor.js'></script>
+		<script language='javascript' type='text/javascript' src='/assets/ckfinder/ckfinder.js'></script>
+		<script language='javascript' type='text/javascript' src='/assets/flexigrid/flexigrid.pack.js'></script>
+		
+		
+<script language="javascript">
+		$(document).ready(function(){
+			$(".tabs form input").focus(function(){
+				$(this).val('');
+			},function(){
+				$(this).val('Ara');
+			});
+			$(".message-box").fadeOut(5000);			
+		});
+		function closeLightBox(){
+			 $('#lightbox_bg').fadeOut();
+        	 $('#lightbox_container').fadeOut();
+        	 $('#lightbox_wrapper').fadeOut();
+		}
+</script>
+</head>
+<body>
+<div id="container">
+	<div class="wrapper">
+		<div id="header">
+				<div class="hdrl"></div>
+				<div class="hdrr"></div>
+				<h1>CMS</h1>
+				<ul id="nav">
+					<li><a  href="/season">Genel İşlemler</a>
+						<ul>
+						<li><a class="active" href="/season">Sezonlar</a></li>
+						<li><a class="active" href="/session">Seanslar</a></li>
+						<li><a class="active" href="/product">Ürünler</a></li>
+						<li><a class="active" href="/company">Şirketler</a></li>
+						<li><a class="active" href="/page">Sayfalar</a></li>
+						<li><a class="active" href="/content">Sabit İçerikler</a></li>
+						</ul>
+					
+					</li>
+					<li><a href="#">Ayarlar</a>
+						<ul>
+							<li><a href="/image-settings">Resim Ayarları</a></li>
+							<li><a href="/admin">Profilim</a></li>
+							
+						</ul>
+					</li>
+					
+					<li><a href="#">Araçlar</a>
+						<ul>
+							<li><a href="/user">Kullanıcı Bilgileri</a></li>
+							<li><a href="/userlog">Hediye İstatislikleri</a></li>
+							
+							
+						</ul>
+					</li>
+					
+					
+				</ul>
+				<p class="user">Merhaba, <a href="/admin"><b><?php echo $this->user->username?></b></a> | <a href="/logout"><?php echo $this->translate('logout')?></a></p>
+			</div>
+		<div class="block">
+			<?php echo $this->layout()->content?>
+		</div>
+	</div>
+</div>
+</body>
+</html>

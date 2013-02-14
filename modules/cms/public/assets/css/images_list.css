@@ -1,0 +1,73 @@
+#image_single_container {
+	padding: 5px;
+	margin: 2px;
+	float: left;
+	background-color: #fff;
+	border: 1px dotted #aaa;
+	text-align: center;
+	width: 290px;
+}
+
+#image_single_container.container_image_part {
+	margin: 0 auto;
+	width: 280px;
+}
+
+#image_single_container  img {
+	max-width: 275px;
+	}
+
+
+#image_single_container.container_form_part {
+	margin: 10px;
+}
+
+#image_single_container a.delete_image {
+	cursor: pointer;
+	clear: both;
+	float: left;
+	padding: 0.5em 0;
+}
+
+#image_single_container a.delete_image img {
+	margin-bottom: -3px;
+	margin-right: 4px;
+}
+
+#image_single_container label {
+	width: 90%;
+	clear: both;
+	float: left;
+	text-align: left;
+	margin: 5px auto 0 0px;
+}
+
+#image_single_container input[type=text] {
+	float: left;
+	padding: 0.5em;
+	width: 90%;
+}
+
+#image_single_container textarea {
+	clear: both;
+	float: left;
+	padding: 0.5em;
+	width: 93%;
+}
+
+#image_single_container input[type=submit] {
+	clear: both;
+	float: left;
+	margin: 5px;
+}
+
+a#add_image_button {
+	clear: both;
+	float: left;
+	padding: 0.5em;
+	color: #353535;
+	background: url(../images/button_bg_1.png) left top repeat-x;
+	text-shadow: 1px 1px 1px #fff;
+	border: 1px solid #bbb;
+	margin: 5px 15px;
+}

@@ -1,0 +1,94 @@
+<?php include("assets/ckeditor/ckeditor.php");
+$CKEditor = new CKEditor();
+$CKEditor->basePath = '/assets/ckeditor/';
+
+$CONFIG['width'] = 800;
+$CONFIG['height'] = 300;
+$CONFIG['entities_latin'] = false;
+$CONFIG['filebrowserBrowseUrl'] = '/assets/ckfinder/ckfinder.html';
+$CONFIG['filebrowserImageBrowseUrl'] = '/assets/ckfinder/ckfinder.html?type=Images';
+$CONFIG['filebrowserFlashBrowseUrl'] = '/assets/ckfinder/ckfinder.html?type=Flash';
+$CONFIG['filebrowserUploadUrl'] = '/assets/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files';
+$CONFIG['filebrowserImageUploadUrl'] = '/assets/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images';
+$CONFIG['filebrowserFlashUploadUrl'] = '/assets/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash';
+?>
+<div class="block">
+	<div class="block_head">
+    	<div class="bheadl"></div>
+    	<div class="bheadr"></div>
+    		
+    	<h2>İçerikler</h2>
+    </div>
+	<div class="block_content">
+		<form  method="post" style="text-align: left;" id="page_form">
+            <?php if (isset($this->content)):?>
+            <input type="hidden" name="id" id="page_item" value="<?php echo @$this->content['id']?>" />
+            <?php endif;?>
+            <p>
+            	<label for="title" >İçerik Adı</label>
+            	<input name="title" type="text" class="medium text" value="<?php echo @$this->content['title']?>" />
+            </p>
+            <p>
+            	<label for="name" >Sayfa Adı</label>
+            	<select name="page_id" >
+            	<?php foreach ($this->pages as $page):?>
+            		<option value="<?php echo $page['id']?>" <?php echo ($page['id']==@$this->content['page_id'])? 'selected="selected"':'';?>><?php echo $page['name']?></option>
+            	<?php endforeach;?>	
+            	</select>
+            </p>
+            <p>
+            	<label for="name" >Yayın Durumu</label>
+            	<select name="status" >
+            		<option value="0" <?php echo ("0"==@$this->content['status'])? 'selected="selected"':'';?>>Yayında Değil</option>
+            		<option value="1" <?php echo ("1"==@$this->content['status'])? 'selected="selected"':'';?>>Yayında</option>
+            	</select>
+            </p>	
+            <p>
+            	<label for="content" >İçerik</label>
+            	<?php
+            	 $editor = ( !isset($this->content) ) ? "" : @$this->content['content'];   
+            	 echo  $CKEditor->editor("content", $editor, $CONFIG);
+            	 ?>
+            </p>
+            <p>
+            	<input type="submit" class="submit" value="Kaydet" />
+            </p>
+		</form>
+	</div>
+</div>
+
+<script type="text/javascript">
+$("#page_form").submit(function(){
+	//var data = $(this).serialize();
+	var values, index;
+
+	// Get the parameters as an array
+	values = $(this).serializeArray();
+
+	// Find and replace `content` if there
+	for (index = 0; index < values.length; ++index) {
+	    if (values[index].name == "content") {
+	        values[index].value = CKEDITOR.instances.content.getData();
+	        break;
+	    }
+	}
+	var url = "";
+	if($("#page_item").length == 0){
+		url = "/content/create";
+	}else{
+		url = "/content/edit/item/"+$("#page_item").val();
+	}
+	 $.ajax({
+         type: "POST",
+         url: url,
+         data: values,
+         success: function(msg){
+        	 closeLightBox();
+        	 $('#gridtable').flexReload();
+         }
+     });
+	return false;
+});
+
+
+</script>

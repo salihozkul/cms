@@ -1,0 +1,124 @@
+<?php
+echo $this->flexigrid;
+?>
+
+<table id="gridtable"></table>
+<script type="text/javascript">
+
+function test(com,grid)
+{
+    if (com=='Hepsi')
+    {
+		$('.bDiv tbody tr',grid).addClass('trSelected');
+    }
+    
+    if (com=='Hiçbiri')
+    {
+		$('.bDiv tbody tr',grid).removeClass('trSelected');
+    }
+
+    if ( com == 'Düzenle' ) 
+    {
+		if($('.trSelected',grid).length==1){
+            var items = $('.trSelected',grid);
+            var itemlist ='';
+            for(i=0;i<items.length;i++){
+                itemlist+= items[i].id.substr(3);
+            }
+
+			$("#lightbox_container").fadeIn();
+			$("#lightbox_wrapper").fadeIn();
+			
+            $("#lightbox_content").html("<img src='assets/images/lightbox-ico-loading.gif' alt='loading'/> ");
+            $.ajax({
+                type: "POST",
+                url: "<?php echo $this->url_edit?>",
+                data: "id="+itemlist,
+                success: function(msg){
+                    $("#lightbox_content").html(msg);
+                }
+            });
+            
+	    } else {
+	        alert("Düzenlemek için 1 tane seçim yapmalısınız.");
+	    }
+    }
+    if ( com == 'Resim' ) 
+    {
+		if($('.trSelected',grid).length==1){
+            var items = $('.trSelected',grid);
+            var itemlist ='';
+            for(i=0;i<items.length;i++){
+                itemlist+= items[i].id.substr(3);
+            }
+
+			$("#lightbox_container").fadeIn();
+			$("#lightbox_wrapper").fadeIn();
+			
+            $("#lightbox_content").html("<img src='assets/images/lightbox-ico-loading.gif' alt='loading'/> ");
+            $.ajax({
+                type: "POST",
+                url: "<?php echo $this->url_image?>",
+                data: "id="+itemlist,
+                success: function(msg){
+                    $("#lightbox_content").html(msg);
+                }
+            });
+            
+	    } else {
+	        alert("Resim eklemek için 1 tane seçim yapmalısınız.");
+	    }
+    }
+    
+    if (com=='Yeni')
+    {
+	
+		$("#lightbox_container").fadeIn();
+		$("#lightbox_wrapper").fadeIn();
+		
+        $("#lightbox_content").html("<img src='assets/img/lightbox-ico-loading.gif' alt='loading'/> ");
+        $.ajax({
+            type: "POST",
+            url: "<?php echo $this->url_new?>",
+            success: function(msg){
+                $("#lightbox_content").html(msg);
+            }
+        });
+    }
+	
+	
+	
+    if (com=='Sil')
+        {
+           if($('.trSelected',grid).length>0){
+			   if(confirm('Delete ' + $('.trSelected',grid).length + ' items?')){
+		            var items = $('.trSelected',grid);
+		            var itemlist ='';
+		        	for(i=0;i<items.length;i++){
+						itemlist+= items[i].id.substr(3)+",";
+					}
+		        	itemlist = itemlist.substr(0,itemlist.length-1);//remove comma
+					$.ajax({
+					   type: "POST",
+					   url: "<?php echo $this->url_delete?>",
+					   data: "items="+itemlist,
+					   success: function(data){
+                            $('#gridtable').flexReload();
+					   }
+					});
+				}
+			} else {
+				return false;
+			} 
+        }          
+} 
+</script>
+<div id='lightbox_container'>
+	<div id="lightbox_wrapper">
+		<div id="lightbox_content">
+		</div>
+		<a class='lightbox_close' onClick="$('#lightbox_bg').fadeOut();$('#lightbox_container').fadeOut();$('#lightbox_wrapper').fadeOut();">
+			<img src="/assets/images/window-close.png" alt="Kapat"/>
+		</a>
+	</div>
+</div>

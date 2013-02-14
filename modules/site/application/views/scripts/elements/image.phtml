@@ -1,0 +1,72 @@
+<link href="/assets/css/fileuploader.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/assets/scripts/fileuploader.js"></script>
+<link href='/assets/scripts/prettyPhoto/css/prettyPhoto.css' type='text/css' rel='stylesheet' />
+<script language='javascript' type='text/javascript' src='/assets/scripts/prettyPhoto/js/jquery.prettyPhoto.js'></script>
+<script type="text/javascript">
+function createUploader(){            
+    var uploader = new qq.FileUploader({
+        debug:true,
+        element: document.getElementById('demo'),
+        action: '/<?php echo $this->controller;?>/save.image/id/<?php echo $this->id;?>/',
+        onComplete:function (id, fileName, response){
+			var html;
+			html += '<img style="max-height: 99%;padding:2px;margin:3px;" src="'+response.name+'"  />';
+			$("#resim").html('');
+			$(html).appendTo("#resim"); 
+		}    
+     });
+}
+
+window.onload = createUploader();  
+
+//Image actions menu
+ $('ul.imglist li').hover(
+     function() { $(this).find('ul').css('display', 'none').fadeIn('fast').css('display', 'block'); },
+     function() { $(this).find('ul').fadeOut(100); }
+); 
+//Modal boxes - to all links with rel="prettyPhoto"
+$('a[rel*=prettyPhoto]').prettyPhoto();
+
+function DeleteImage(counter,module_id){
+	$.ajax({
+        type: "POST",
+        url: "<?php echo $this->controller?>/remove.image/",
+        data: "counter="+counter+"&module_id="+module_id,
+        success: function(msg){
+            if(msg == "1"){
+       			$("ul.imglist li."+counter).slideUp("slow",function(){$(this).remove();});
+            }
+        }
+    });
+}
+
+</script>
+<div class="block">
+	<div class="block_head">
+		<div class="bheadl"></div>
+		<div class="bheadr"></div>
+		<h2>Resimler</h2>						
+	</div>
+	<div class="block_content">
+		<ul class="imglist">
+    		<?php foreach ($this->images as $image):?>
+    		<li class="<?php echo $image['counter'];?>">
+    			<img  src="<?php echo $image['directory'].$image['name'];?>" />
+    			<ul style="display: none;">
+					<li class="view"><a style="cursor: pointer;" rel="prettyPhoto" href="<?php echo $image['directory'].str_replace("thumb", "large", $image['name']);?>">Bak</a></li>
+					<li class="delete"><a style="cursor: pointer;" onClick="DeleteImage(<?php echo $image['counter'];?>,<?php echo $image['module_id'];?>)" >Sil</a></li>
+				</ul>
+    		</li>
+    		<?php endforeach;?>
+		</ul>
+		<div style="float:left;width:400px;height:150px;border:1px solid #ccc;background-color:#F5F5F5;">
+		<div id="resim" style="float:left;width:99%;overflow:hidden;text-align:center;" >
+		</div>
+    	<div style="float:left;width:99%;height:60px;text-align:center;">
+    		<div style="margin:5px;" id="demo"></div>
+    		<div id="separate-list"></div>
+    	</div>
+		</div>
+	</div>
+	
+</div>	

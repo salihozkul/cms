@@ -1,0 +1,46 @@
+<div class="block">
+	<div class="block_head">
+    	<div class="bheadl"></div>
+    	<div class="bheadr"></div>
+    		
+    	<h2>Sayfalar</h2>
+    </div>
+	<div class="block_content">
+		<form  method="post" style="text-align: left;" id="page_form">
+            <?php if (isset($this->page)):?>
+            <input type="hidden" name="id" id="page_item" value="<?php echo @$this->page['id']?>" />
+            <?php endif;?>
+            <p>
+            	<label for="name" >Sayfa Adı</label>
+            	<input name="name" type="text" class="medium text" value="<?php echo @$this->page['name']?>" />
+            </p>
+            <p>
+            	<input type="submit" class="submit" value="Kaydet" />
+            </p>
+		</form>
+	</div>
+</div>
+
+<script type="text/javascript">
+$("#page_form").submit(function(){
+	var data = $(this).serialize();
+	var url = "";
+	if($("#page_item").length == 0){
+		url = "/page/create";
+	}else{
+		url = "/page/edit/item/"+$("#page_item").val();
+	}
+	 $.ajax({
+         type: "POST",
+         url: url,
+         data: data,
+         success: function(msg){
+        	 closeLightBox();
+        	 $('#gridtable').flexReload();
+         }
+     });
+	return false;
+});
+
+
+</script>

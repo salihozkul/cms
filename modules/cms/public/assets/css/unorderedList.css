@@ -1,0 +1,73 @@
+#language_list_title {
+	clear: both;
+	float: left;
+	width: 97%;
+	padding: 0.2em 0;
+	margin: 10px;
+	border-bottom: 3px solid #D3ECEC;
+	text-align: left;
+	font-size: 14px;
+	font-weight: bold;
+	color: #276056;
+	text-shadow: 1px 1px 0px #ccc;
+	padding-left: 10px;
+	}
+
+#api_system_created_recursive_list {
+	clear: both;
+	float: left;
+	text-align: left;
+	margin: 0 auto 0 -10px;
+	padding: 10px;
+	width: auto;
+}
+
+#api_system_created_recursive_list ul {
+	margin: 0 auto 0 20px;
+	width: 400px;
+}
+
+#api_system_created_recursive_list li{
+	display: block;
+	list-style: none;
+	float: left;
+	line-height: 30px;
+	width: 100%;
+}
+
+
+#api_system_created_recursive_list .list-link {
+	float: left;
+	width: 300px;
+	border-bottom: 1px solid #ddd;
+	}
+	
+.list-link a {
+	clear: both;
+	font-size: 14px;
+	width: 100%;
+	flaot: left;
+	color: #666;
+}
+
+.list-link a:hover {
+	clear: both;
+	font-size: 14px;
+	flaot: left;
+	color: #111;
+}
+
+.list-admin {
+	float: left;
+	}
+
+.list-admin a{
+	text-decoration: none;
+	color: #999;
+	font-size: 10px;
+}
+
+.list-admin a:hover {
+	color: #333;
+	text-decoration: underline;
+}

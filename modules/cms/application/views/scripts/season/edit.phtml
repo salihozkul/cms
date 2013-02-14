@@ -1,0 +1,116 @@
+<script language='javascript' type='text/javascript' src='/assets/scripts/jquery-ui-1.8.6.custom.min.js'></script>
+<link href='/assets/css/jquery-ui.css' type='text/css' rel='stylesheet' />
+<div class="block">
+	<div class="block_head">
+    	<div class="bheadl"></div>
+    	<div class="bheadr"></div>
+    		
+    	<h2>Sezonlar</h2>
+    </div>
+	<div class="block_content">
+		<form  method="post" style="text-align: left;" id="page_form">
+            <?php if (isset($this->season)):?>
+            <input type="hidden" name="id" id="page_item" value="<?php echo @$this->season['id']?>" />
+            <?php endif;?>
+            <p >
+            	<label for="season_name" >Sezon Adı</label>
+            	<input name="season_name" type="text" class="text medium" value="<?php echo @$this->season['season_name']?>" />
+            </p>
+            <p >
+            	<label for="company_id" >Şirket</label>
+            	<select name="company_id" >
+            	<?php foreach ($this->company as $company):?>
+            		<option value="<?php echo $company['id']?>" <?php echo ($company['id']==@$this->season['company_id'])? 'selected="selected"':'';?>><?php echo $company['company_name']?></option>
+            	<?php endforeach;?>	
+            	</select>
+            </p>
+            <p style="float:left;width:300px;clear:both;">
+            	<label for="click_per_user"  style="float:left;width:300px;">Kullanıcının Toplam Tık Sayısı</label>
+            	<input title="Sadece sayı giriniz!" name="click_per_user" type="text" class="medium text" style="width:100px;" value="<?php echo @$this->season['click_per_user']?>" />
+            </p>
+            <p style="float:left;width:300px;clear:none;">
+            	<label for="click_per_product" style="float:left;width:260px;" >Ürün Başına Tık Sayısı</label>
+            	<input title="Sadece sayı giriniz!" name="click_per_product" type="text" class="medium text" style="width:100px;" value="<?php echo @$this->season['click_per_product']?>" />
+            </p>
+            <p style="float:left;width:160px;clear:none;">
+            	<label for="total_click" style="float:left;width:160px;" >Toplam Tık Sayısı</label>
+            	<input title="Sadece sayı giriniz!" name="total_click" type="text" class="medium text" style="width:100px;" value="<?php echo @$this->season['total_click']?>" />
+            </p>
+            <p style="float:left;width:160px;clear:both;">
+                <label for="start_date" style="float:left;width:120px;">Başlangıç Tarihi</label>
+                <input type="text" name="start_date" value="<?php echo @$this->season['start_date']?>"  class="text" style="width:100px;"  id="start" /> 
+            </p>
+            <p style="float:left;width:160px;clear:none;">
+                <label for="end_date" style="float:left;width:120px;">Bitiş Tarihi</label>
+                <input type="text" name="end_date" value="<?php echo @$this->season['end_date']?>"  class="text" style="width:100px;" id="finish" /> 
+            </p>
+            <p style="float:left;width:230px;clear:none;">
+            	<label for="showon_mainpage" >Anasayfada Gösterim</label>
+            	<select name="showon_mainpage" >
+            		<option value="0" <?php echo ("0"==@$this->season['showon_mainpage'])? 'selected="selected"':'';?>>Anasayfada Gösterme</option>
+            		<option value="1" <?php echo ("1"==@$this->season['showon_mainpage'])? 'selected="selected"':'';?>>Anasayfada Göster</option>
+            	</select>
+            </p>
+            <p style="float:left;width:230px;clear:none;">
+            	<label for="status" >Yayın Durumu</label>
+            	<select name="status" >
+            		<option value="0" <?php echo ("0"==@$this->season['status'])? 'selected="selected"':'';?>>Yayında Değil</option>
+            		<option value="1" <?php echo ("1"==@$this->season['status'])? 'selected="selected"':'';?>>Yayında</option>
+            	</select>
+            </p>
+             
+            
+            <p>
+            	<input type="submit" class="submit" value="Kaydet" />
+            </p>
+		</form>
+	</div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+	$.datepicker.regional['tr'] = {
+	          closeText: 'kapat',
+	          prevText: 'geri',
+	          nextText: 'ileri',
+	          currentText: 'bugün',
+	          monthNames: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],
+	          monthNamesShort: ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'],
+	          dayNames: ['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'],
+	          dayNamesShort: ['Pz','Pt','Sa','Ça','Pe','Cu','Ct'],
+	          dayNamesMin: ['Pz','Pt','Sa','Ça','Pe','Cu','Ct'],
+	          weekHeader: 'Hf',
+	          dateFormat: 'yy-mm-dd',
+	          firstDay: 1,
+	          isRTL: false,
+	          showMonthAfterYear: false,
+	          changeMonth: true,
+	          changeYear: true,
+	          yearSuffix: ''};
+	$.datepicker.setDefaults($.datepicker.regional['tr']);
+	$("#start").datepicker($.datepicker.regional['tr']);
+	$("#finish").datepicker($.datepicker.regional['tr']);
+
+});
+$("#page_form").submit(function(){
+	var data = $(this).serialize();
+	var url = "";
+	if($("#page_item").length == 0){
+		url = "/season/create";
+	}else{
+		url = "/season/edit/item/"+$("#page_item").val();
+	}
+	 $.ajax({
+         type: "POST",
+         url: url,
+         data: data,
+         success: function(msg){
+        	 closeLightBox();
+        	 $('#gridtable').flexReload();
+         }
+     });
+	return false;
+});
+
+
+</script>

@@ -1,0 +1,15 @@
+<?php echo @$this->message;?>
+<form action="" method="post">
+	<div id="login-left">
+		<table width="100%">
+			<tr><td><label>Email</label></td><td><label>Şifre</label></td></tr>
+			<tr><td><input type="text" name="username" /></td><td><input type="password" name="password" /></td></tr>
+			<tr><td><input type="checkbox" name="active" /><label style="line-height: 10px; ">Oturumu sürekli açık tut.</label></td><td><a href="#">Şifremi unuttum</a></td></tr>
+		</table>
+	</div>
+	<div id="login-right">
+		<input type="submit" type="button" value="Giriş" />
+		<span class="buttondivider"></span>	
+		<input onclick="window.location='/sign-up'" type="button" value="Üye Ol" />
+	</div>
+</form>	

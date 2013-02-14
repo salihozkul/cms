@@ -1,0 +1,91 @@
+<?php include("assets/ckeditor/ckeditor.php");
+$CKEditor = new CKEditor();
+$CKEditor->basePath = '/assets/ckeditor/';
+
+$CONFIG['width'] = 800;
+$CONFIG['height'] = 300;
+$CONFIG['entities_latin'] = false;
+$CONFIG['filebrowserBrowseUrl'] = '/assets/ckfinder/ckfinder.html';
+$CONFIG['filebrowserImageBrowseUrl'] = '/assets/ckfinder/ckfinder.html?type=Images';
+$CONFIG['filebrowserFlashBrowseUrl'] = '/assets/ckfinder/ckfinder.html?type=Flash';
+$CONFIG['filebrowserUploadUrl'] = '/assets/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files';
+$CONFIG['filebrowserImageUploadUrl'] = '/assets/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images';
+$CONFIG['filebrowserFlashUploadUrl'] = '/assets/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash';
+?>
+<div class="block">
+	<div class="block_head">
+    	<div class="bheadl"></div>
+    	<div class="bheadr"></div>
+    		
+    	<h2>Ürünler</h2>
+    </div>
+	<div class="block_content">
+		<form  method="post" style="text-align: left;" id="page_form">
+            <?php if (isset($this->product)):?>
+            <input type="hidden" name="id" id="page_item" value="<?php echo @$this->product['id']?>" />
+            <?php endif;?>
+            <p>
+            	<label for="name" >Ürün Adı</label>
+            	<input name="name" type="text" class="medium text" value="<?php echo @$this->product['name']?>" />
+            </p>
+            <p>
+            	<label for="season_id" >Sezon Adı</label>
+            	<select name="season_id" >
+            	<?php foreach ($this->season as $season):?>
+            		<option value="<?php echo $season['id']?>" <?php echo ($season['id']==@$this->product['season_id'])? 'selected="selected"':'';?>><?php echo $season['season_name']?></option>
+            	<?php endforeach;?>	
+            	</select>
+            </p>
+            <p>
+            	<label for="total" >Toplam Ürün Sayısı</label>
+            	<input name="total" type="text" class="medium text" value="<?php echo @$this->product['total']?>" />
+            </p>
+            <p>
+            	<label for="description" >Ürün Açıklaması</label>
+            	<?php
+            	 $editor = ( !isset($this->product) ) ? "" : @$this->product['description'];   
+            	 echo  $CKEditor->editor("description", $editor, $CONFIG);
+            	 ?>
+            </p>
+            <p>
+            	<input type="submit" class="submit" value="Kaydet" />
+            </p>
+		</form>
+	</div>
+</div>
+
+<script type="text/javascript">
+$("#page_form").submit(function(){
+	//var data = $(this).serialize();
+	var values, index;
+
+	// Get the parameters as an array
+	values = $(this).serializeArray();
+
+	// Find and replace `content` if there
+	for (index = 0; index < values.length; ++index) {
+	    if (values[index].name == "description") {
+	        values[index].value = CKEDITOR.instances.description.getData();
+	        break;
+	    }
+	}
+	var url = "";
+	if($("#page_item").length == 0){
+		url = "/product/create";
+	}else{
+		url = "/product/edit/item/"+$("#page_item").val();
+	}
+	 $.ajax({
+         type: "POST",
+         url: url,
+         data: values,
+         success: function(msg){
+        	 closeLightBox();
+        	 $('#gridtable').flexReload();
+         }
+     });
+	return false;
+});
+
+
+</script>

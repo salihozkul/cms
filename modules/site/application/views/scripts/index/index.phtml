@@ -1,0 +1,91 @@
+<!-- <div id="middle">
+	<div id="product-header">
+		<h1><span>Günün Hediyesi :</span> <?php echo $this->gift['session_name']?></h1>
+	</div>
+	<div id="product-center">
+		<div id="deal">
+			
+		</div>
+		<div id="product-image">
+			<?php
+			$images = $this->getPicture($this->model,1,$this->gift['product_id'],"medium"); 
+			?>
+			<?php if ($images['spot']):?>
+			<img src="<?php echo $images['spot']?>" alt="<?php echo $this->gift['season_name']?>" />
+			<?php endif;?>
+		</div>
+	</div>
+	<div id="product-content">
+		<?php echo $this->gift['description']?>
+		<?php foreach ($images['pictures'] as $image):?>
+		<img src="<?php echo $image?>" alt="<?php echo $this->gift['name']?>" />
+		<?php endforeach;?>
+	
+	</div>
+</div>
+ -->
+ <div id="caption">
+					
+					<div id="title">
+						<?php echo $this->gift['session_name']?>
+					
+					</div>
+				</div>
+				<div id="left">
+				
+					<div id="addthis">
+					<!-- AddThis Button BEGIN -->
+<div class="addthis_toolbox addthis_default_style ">
+<a class="addthis_button_preferred_1"></a>
+<a class="addthis_button_preferred_2"></a>
+<a class="addthis_button_preferred_3"></a>
+<a class="addthis_button_preferred_4"></a>
+<a class="addthis_button_compact"></a>
+<a class="addthis_counter addthis_bubble_style"></a>
+</div>
+<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=xa-4e16270129c72aba"></script>
+<!-- AddThis Button END -->
+					
+					</div>
+					<div id="location">
+					@ Nişantaşı,İstanbul
+					</div>
+					<div id="gallery">
+						<?php echo $this->slider?>
+					</div>
+					<div id="detail-title-container">
+						<div id="detail-icon">
+						</div>
+						<div id="detail-title">
+							<?php echo $this->gift['company_name']?>
+						</div>
+						<div id="detail-title-url">
+							<?php echo $this->gift['website']?>
+						</div>
+					</div>
+					<div id="detail">
+						 <div id="detail-left">
+						<?php echo $this->gift['company_description']?>
+						</div>
+						<div id="detail-right">
+							<span>Nerede?</span>
+							<img src="assets/images/map.jpg" />
+							<span>
+							Vali Konağı Caddesi<br/>
+							 No:36 Nişantaşı, İstanbul<br/>
+							0(212) 444 2 469<br/>
+							</span>
+						</div> 
+						<!--<?php echo $this->gift['company_description']?>-->
+					</div>
+				</div>
+				<div id="right">
+					<div id="deal">
+					<?php echo $this->deal?>
+					</div>
+					<div id="gift_properties">
+						<span id="gift_title">Hediye Detayları</span>
+						<span id="gift_description"><?php echo $this->gift['description']?></span>
+					</div>
+				</div>
+				

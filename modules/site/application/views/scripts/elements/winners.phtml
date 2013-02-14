@@ -1,0 +1,11 @@
+<span class="result win"></span>
+<div id="result-detail">
+Ne yazık ki bu hakkınızda da kazanamadınız.Tıklama sıranız <b><?php echo $this->last_count?></b>
+<?php if (isset($this->winners)):?>
+	<ul>
+	<?php foreach ($this->winners as $winner):?>
+	<li><?php echo $winner['username']?> isimli kullanıcı <?php echo $winner['click_number']?> tık numarası ile kazandı.</li>
+	<?php endforeach;?>
+	</ul>
+<?php endif;?>	
+</div>

@@ -1,0 +1,44 @@
+	<div id="button-container-top">
+	</div>
+	<div id="button-container-center">
+		
+<?php if ($this->gift["start_date"]< date('Y-m-d H:i:s') && $this->gift['end_date']>date('Y-m-d H:i:s')){?>
+		<div id="seans-status">
+			SEANS AÇIK
+		</div>
+		<span class="status play"></span>
+		<div class="notification">
+			Bu seansta <?php echo $this->gift['product_limit']?> hediye verilecek.
+		</div>
+		<div class="panel-divider"></div>
+		<div class="notification">
+			<?php $numbers = explode("|",$this->gift['award_numbers']);	echo $numbers[0]?> veya katlarında hediyenizi kapın!
+		</div>
+		<a class="button open notice "   >
+			
+		</a>
+		<div class="panel-divider"></div>
+		<span class="deal-notice" ><br/>Lütfen <br/>üye girişi <br/>yapınız.</span>
+		<?php  }else {?>
+        <div id="seans-status" style="color: #ffcc00;">
+        	Seans <br/>her an <br/>açılabilir!
+        </div>
+		<span class="status pause"></span>
+		<div class="panel-divider"></div>
+		
+		<a class="button close notice "  >
+			
+		</a>
+		<div class="panel-divider"></div>
+		<span class="deal-notice" ><br/>Lütfen <br/>üye girişi <br/>yapınız.</span>
+<?php }?>
+	</div>
+	<div id="button-container-bottom">
+	</div>
+<script type="text/javascript">
+$(".notice").hover(function(){
+	$(".deal-notice").show();
+},function(){
+	$(".deal-notice").hide();
+});
+</script>	

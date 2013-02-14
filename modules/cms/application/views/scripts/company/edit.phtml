@@ -1,0 +1,87 @@
+<?php include("assets/ckeditor/ckeditor.php");
+$CKEditor = new CKEditor();
+$CKEditor->basePath = '/assets/ckeditor/';
+
+$CONFIG['width'] = 800;
+$CONFIG['height'] = 300;
+$CONFIG['entities_latin'] = false;
+$CONFIG['filebrowserBrowseUrl'] = '/assets/ckfinder/ckfinder.html';
+$CONFIG['filebrowserImageBrowseUrl'] = '/assets/ckfinder/ckfinder.html?type=Images';
+$CONFIG['filebrowserFlashBrowseUrl'] = '/assets/ckfinder/ckfinder.html?type=Flash';
+$CONFIG['filebrowserUploadUrl'] = '/assets/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files';
+$CONFIG['filebrowserImageUploadUrl'] = '/assets/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images';
+$CONFIG['filebrowserFlashUploadUrl'] = '/assets/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash';
+?>
+<div class="block">
+	<div class="block_head">
+    	<div class="bheadl"></div>
+    	<div class="bheadr"></div>
+    		
+    	<h2>Şirketler</h2>
+    </div>
+	<div class="block_content">
+		<form  method="post" style="text-align: left;" id="page_form">
+            <?php if (isset($this->company)):?>
+            <input type="hidden" name="id" id="page_item" value="<?php echo @$this->company['id']?>" />
+            <?php endif;?>
+            <p>
+            	<label for="company_name" >Şirket Adı</label>
+            	<input name="company_name" type="text" class="medium text" value="<?php echo @$this->company['company_name']?>" />
+            </p>
+             <p>
+            	<label for="company_category_id" >Şirket Kategorisi</label>
+            	<select name="company_category_id" >
+            	<?php foreach ($this->company_category as $category):?>
+            		<option value="<?php echo $category['id']?>" <?php echo ($category['id']==@$this->company['company_category_id'])? 'selected="selected"':'';?>><?php echo $category['category']?></option>
+            	<?php endforeach;?>	
+            	</select>
+            </p>
+            <p>
+            	<label for="location_id" >Şirket Merkezi</label>
+            	<select name="location_id" >
+            	<?php foreach ($this->location as $city):?>
+            		<option value="<?php echo $city['id']?>" <?php echo ($city['id']==@$this->company['location_id'])? 'selected="selected"':'';?>><?php echo $city['city']?></option>
+            	<?php endforeach;?>	
+            	</select>
+            </p>
+            <p>
+            	<label for="website" >Şirket Web Adresi</label>
+            	<input name="website" type="text" class="medium text" value="<?php echo @$this->company['website']?>" />
+            </p>
+             <p>
+            	<label for="description" >Açıklama</label>
+            	<?php
+            	 $editor = ( !isset($this->company) ) ? "" : @$this->company['description'];   
+            	 echo  $CKEditor->editor("description", $editor, $CONFIG);
+            	 ?>
+            </p>
+            <p>
+            	<input type="submit" class="submit" value="Kaydet" />
+            </p>
+		</form>
+	</div>
+</div>
+
+<script type="text/javascript">
+$("#page_form").submit(function(){
+	var data = $(this).serialize();
+	var url = "";
+	if($("#page_item").length == 0){
+		url = "/company/create";
+	}else{
+		url = "/company/edit/item/"+$("#page_item").val();
+	}
+	 $.ajax({
+         type: "POST",
+         url: url,
+         data: data,
+         success: function(msg){
+        	 closeLightBox();
+        	 $('#gridtable').flexReload();
+         }
+     });
+	return false;
+});
+
+
+</script>

@@ -1,0 +1,26 @@
+@CHARSET "UTF-8";
+#landing_sublinks {
+	width: 250px;
+	clear: both;
+	float: left;
+	border-right: 1px dotted #ccc;
+	padding-right: 5px;
+	overflow: hidden;
+}
+
+#landing_sublinks li {
+	padding: 0 0 0 20px;
+	list-style: none;
+}
+
+#landing_sublinks a {
+	color: #999;
+	clear: both;
+	float: left;
+	padding: 0.5em;
+}
+#landing_content {
+	float: left;
+	width: 690px;
+	overflow: hidden;
+}
