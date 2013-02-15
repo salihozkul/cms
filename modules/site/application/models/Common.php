@@ -22,7 +22,7 @@ class Application_Model_Common extends Site_Model_Model {
         if ($id){
             $select->where("session.id=?",$id);
         }            
-        return $this->cacheOne($select->__toString());
+        return $select->query()->fetch();
     }
     public function get_picture($module_id,$item_id,$type){
         $select=$this->select()
@@ -32,7 +32,7 @@ class Application_Model_Common extends Site_Model_Model {
         if ($type){
             $select->where("type=?",$type);
         }            
-        return $this->cacheAll($select->__toString());
+        return $select->query()->fetchAll();
     }
     
     public function add_session_record($session_id,$user_id,$click_limit){
@@ -53,7 +53,7 @@ class Application_Model_Common extends Site_Model_Model {
         $select = $this->select()->from($this->_name,array("click_number","date"));
         $select->joinLeft("user", "user.id = award.user_id",array("username"));
         $select->where("session_id=?",$session_id);
-        return $this->cacheAll($select->__toString());
+        return $select->query()->fetchAll();
     }
     
     public function get_last_insert($session_id,$user_id){
@@ -80,7 +80,7 @@ class Application_Model_Common extends Site_Model_Model {
     public function get_static_content($page_id){
         $select = $this->select()->from("content");
         $select->where("status=1 AND page_id=?",$page_id);
-        return $this->cacheOne($select->__toString());
+        return $select->query()->fetch();
     }
     
     

@@ -3,10 +3,10 @@ abstract class Site_Model_Model extends Zend_Db_Table {
     protected $cache;
     public function init(){
         parent::init();
-        $this->cache = Site_Config_Memcache::getCache();
+        //$this->cache = Site_Config_Memcache::getCache();
     }
     protected function setCacheState(){
-		$this->cacheable = true;
+		$this->cacheable = false;
 	}
 	
     public function __construct($config = array(), $definition = null){
@@ -16,10 +16,10 @@ abstract class Site_Model_Model extends Zend_Db_Table {
          'automatic_serialization' => true
       );
       $backendOptions = Site_Config_Manager::getConfig('memcache.ini');
-      $this->cache = Zend_Cache::factory('Core',
+/*      $this->cache = Zend_Cache::factory('Core',
                                    'Memcached',
                                    $frontendOptions,
-                                   $backendOptions);   
+                                   $backendOptions); */   
 		//$this->setDefaultMetadataCache($this->cache);
 		parent::__construct($config,$definition);
 	}
@@ -79,7 +79,7 @@ abstract class Site_Model_Model extends Zend_Db_Table {
         if ($order){
             $select->order($order);
         }
-        return $this->cacheAll($select->__toString());
+        return $select->query()->fetchAll();
     }
     /**
      * 
@@ -101,9 +101,9 @@ abstract class Site_Model_Model extends Zend_Db_Table {
     
     public function cacheAll($sql){
         $cacheKey = 'result_'.md5($sql);
-		if($this->cacheable && $this->cache->test($cacheKey)){
+/*		if($this->cacheable && $this->cache->test($cacheKey)){
 			return $this->cache->load($cacheKey);
-		}
+		}*/
 		$results  = Array();
 		try{
             $a = debug_backtrace();

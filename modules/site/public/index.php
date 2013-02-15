@@ -1,6 +1,6 @@
 <?php
 
-define("CMS_URL", "http://panel.hediyenikap.com");
+define("CMS_URL", "http://cmspanel");
 
 // Define path to application directory
 defined('APPLICATION_PATH')
