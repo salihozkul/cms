@@ -337,8 +337,7 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `user` (`id`, `username`, `password`, `name`, `surname`, `email`, `tc`, `birthdate`, `address`, `location_id`, `phone`, `status`, `register_date`) VALUES
-(2,	'admin',	'40bd001563085fc35165329ea',	'Salih',	'Özkul',	'salihozkul@yahoo.com',	127,	127,	'asasd',	1,	'05052032255',	0,	'2011-04-03 17:41:20'),
-(3,	'panel5_user',	'40bd001563085fc35165329ea1ff5c5ecbdbbeef',	'Salih',	'Özkul',	'salihozkul@yahoo.com',	2234,	127,	'',	1,	'05052032255',	0,	'2011-04-06 23:38:40'),
-(7,	'fthtknn',	'8cb2237d0679ca88db6464eac60da96345513964',	'Fatih',	'Tekin',	'fthtkn@gmail.com',	49507297766,	1986,	'',	34,	'05053357025',	0,	'2011-04-07 20:41:12');
+(2,	'admin',	'40bd001563085fc35165329ea',	'Salih',	'Özkul',	'mail@yahoo.com',	127,	127,	'asasd',	1,	'0505555555',	0,	'2011-04-03 17:41:20'),
+(3,	'panel5_user',	'40bd001563085fc35165329ea',	'Salih',	'Özkul',	'mail@yahoo.com',	2234,	127,	'',	1,	'0505555555',	0,	'2011-04-06 23:38:40');
 
 -- 2011-06-24 02:15:36
